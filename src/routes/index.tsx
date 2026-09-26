@@ -3,6 +3,8 @@ import { useEffect, useRef, useState, type FormEvent } from "react";
 import { ArrowUpRight, Check, Code2, Database, ExternalLink, GitBranch, Mail, Menu, MonitorSmartphone, Palette, Send, Sparkles, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import portrait from "@/assets/abdullah-portrait.jpg.asset.json";
+import fitlogPreview from "@/assets/fitlog-preview.png.asset.json";
+import devstackPreview from "@/assets/devstack-preview.png.asset.json";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -127,5 +129,6 @@ function Portfolio() {
 }
 
 function Project({ title, year, label, description, features, tags, demo, repo, preview }: { title: string; year: string; label: string; description: string; features: string[]; tags: string[]; demo: string; repo: string; preview: "fitness" | "stack" }) {
-  return <article className="project-feature"><div className={`project-visual ${preview}`}><div className="project-window"><div className="window-bar"><i /><i /><i /><span>{preview === "fitness" ? "fitlog / dashboard" : "dev stack / builder"}</span></div><div className="window-content"><small>{preview === "fitness" ? "GOOD MORNING, ABDULLAH" : "YOUR DEVELOPMENT TOOLKIT"}</small><strong>{preview === "fitness" ? "Ready to move?" : "Build a stack that fits."}</strong><div className="window-metrics"><div><span>{preview === "fitness" ? "68%" : "12"}</span><small>{preview === "fitness" ? "WEEKLY GOAL" : "TOOLS SAVED"}</small></div><div className="window-bars"><i /><i /><i /><i /><i /><i /><i /></div></div><div className="window-chip"><Check size={12} /> {preview === "fitness" ? "Today's plan" : "Stack saved"}</div></div></div></div><div className="project-details"><div className="project-kicker"><span>{label}</span><span>{year}</span></div><h3>{title}</h3><p>{description}</p><ul>{features.map((feature) => <li key={feature}><Check /> {feature}</li>)}</ul><div className="tag-list">{tags.map((tag) => <span key={tag}>{tag}</span>)}</div><div className="project-actions"><Button asChild><a href={demo} target="_blank" rel="noreferrer">Live demo <ExternalLink /></a></Button><Button variant="outline" asChild><a href={repo} target="_blank" rel="noreferrer"><GitBranch /> Repository</a></Button></div></div></article>;
+  const shot = preview === "fitness" ? fitlogPreview : devstackPreview;
+  return <article className="project-feature"><div className={`project-visual ${preview}`}><div className="project-window"><div className="window-bar"><i /><i /><i /><span>{preview === "fitness" ? "fitlog / workout library" : "dev stack / builder"}</span></div><img className="window-shot" src={shot.url} alt={`${title} app screenshot`} loading="lazy" /></div></div><div className="project-details"><div className="project-kicker"><span>{label}</span><span>{year}</span></div><h3>{title}</h3><p>{description}</p><ul>{features.map((feature) => <li key={feature}><Check /> {feature}</li>)}</ul><div className="tag-list">{tags.map((tag) => <span key={tag}>{tag}</span>)}</div><div className="project-actions"><Button asChild><a href={demo} target="_blank" rel="noreferrer">Live demo <ExternalLink /></a></Button><Button variant="outline" asChild><a href={repo} target="_blank" rel="noreferrer"><GitBranch /> Repository</a></Button></div></div></article>;
 }
