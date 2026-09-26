@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState, type FormEvent } from "react";
-import { ArrowUpRight, Check, Code2, Database, ExternalLink, GitBranch, Layers3, Mail, Menu, MonitorSmartphone, Palette, Send, Sparkles, X } from "lucide-react";
+import { ArrowUpRight, Check, Code2, Database, ExternalLink, GitBranch, Mail, Menu, MonitorSmartphone, Palette, Send, Sparkles, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import portrait from "@/assets/abdullah-portrait.jpg.asset.json";
 
