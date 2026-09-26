@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useEffect, useState, type FormEvent } from "react";
+import { useEffect, useRef, useState, type FormEvent } from "react";
 import { ArrowUpRight, Check, Code2, Database, ExternalLink, GitBranch, Mail, Menu, MonitorSmartphone, Palette, Send, Sparkles, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import portrait from "@/assets/abdullah-portrait.jpg.asset.json";
@@ -31,16 +31,45 @@ const skillGroups = [
 function Portfolio() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState("about");
+  const navigationTarget = useRef<string | null>(null);
 
   useEffect(() => {
     const sections = navItems.map((item) => document.getElementById(item.toLowerCase())).filter((item): item is HTMLElement => Boolean(item));
-    const observer = new IntersectionObserver((entries) => {
-      const visible = entries.filter((entry) => entry.isIntersecting).sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
-      if (visible) setActiveSection(visible.target.id);
-    }, { rootMargin: "-20% 0px -55% 0px", threshold: [0, 0.2] });
-    sections.forEach((section) => observer.observe(section));
-    return () => observer.disconnect();
+    let frame = 0;
+    const updateActiveSection = () => {
+      frame = 0;
+      const target = navigationTarget.current && document.getElementById(navigationTarget.current);
+      if (target) {
+        const landingOffset = window.innerWidth <= 800 ? 70 : 32;
+        const nearTarget = Math.abs(target.getBoundingClientRect().top - landingOffset) < 14;
+        const atBottom = window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 3;
+        if (!nearTarget && !atBottom) return;
+        navigationTarget.current = null;
+      }
+      const marker = Math.min(window.innerHeight * 0.35, 320);
+      const current = [...sections].reverse().find((section) => section.getBoundingClientRect().top <= marker);
+      setActiveSection(current?.id ?? "about");
+    };
+    const onScroll = () => {
+      if (!frame) frame = requestAnimationFrame(updateActiveSection);
+    };
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll);
+    window.addEventListener("hashchange", onScroll);
+    return () => {
+      cancelAnimationFrame(frame);
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
+      window.removeEventListener("hashchange", onScroll);
+    };
   }, []);
+
+  function navigateToSection(id: string) {
+    navigationTarget.current = id;
+    setActiveSection(id);
+    setMenuOpen(false);
+  }
 
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -57,8 +86,8 @@ function Portfolio() {
           <img src={portrait.url} alt="" /><strong>alsabbir<span>.dev</span></strong>
         </a>
         <nav className={`site-nav ${menuOpen ? "is-open" : ""}`} aria-label="Primary navigation">
-          {navItems.map((item) => <a key={item} href={`#${item.toLowerCase()}`} className={activeSection === item.toLowerCase() ? "is-active" : ""} onClick={() => { setActiveSection(item.toLowerCase()); setMenuOpen(false); }}>{item}</a>)}
-          <a className="nav-cta" href="#contact" onClick={() => setMenuOpen(false)}>Get in touch <ArrowUpRight size={15} aria-hidden="true" /></a>
+          {navItems.map((item) => <a key={item} href={`#${item.toLowerCase()}`} className={activeSection === item.toLowerCase() ? "is-active" : ""} aria-current={activeSection === item.toLowerCase() ? "location" : undefined} onClick={() => navigateToSection(item.toLowerCase())}>{item}</a>)}
+          <a className="nav-cta" href="#contact" onClick={() => navigateToSection("contact")}>Get in touch <ArrowUpRight size={15} aria-hidden="true" /></a>
         </nav>
         <Button variant="ghost" size="icon" className="menu-toggle" onClick={() => setMenuOpen(!menuOpen)} aria-label={menuOpen ? "Close menu" : "Open menu"} aria-expanded={menuOpen}>{menuOpen ? <X /> : <Menu />}</Button>
       </header>
