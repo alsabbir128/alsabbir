@@ -10,5 +10,6 @@
 <!-- LOVABLE:END -->
 
 - Keep the portfolio as a single TanStack Start index route with anchored sections, because its navigation is a one-page flow.
+- Track the active section from its actual scroll position and hold clicked navigation during smooth scrolling, because intersection ratios can highlight the next section too early.
 - Define portfolio visual tokens and responsive layout rules in `src/styles.css`, because consistent theming and breakpoint behavior prevent the source site's fixed-shell gap.
 - Keep the contact form as a mailto draft instead of claiming delivery, because no mail service is connected.
