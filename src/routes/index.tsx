@@ -1,11 +1,12 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useRef, useState, type FormEvent } from "react";
-import { ArrowUpRight, Check, Code2, Database, ExternalLink, GitBranch, Mail, Menu, MonitorSmartphone, Palette, Send, Sparkles, X } from "lucide-react";
+import { ArrowUpRight, BookOpen, Check, Code2, Database, ExternalLink, GitBranch, Mail, Menu, MonitorSmartphone, Palette, Send, Sparkles, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import portrait from "@/assets/abdullah-portrait.jpg.asset.json";
 import fitlogPreview from "@/assets/fitlog-preview.png.asset.json";
 import devstackPreview from "@/assets/devstack-preview.png.asset.json";
 import bazardorPreview from "@/assets/bazardor-preview.png.asset.json";
+import booknookPreview from "@/assets/booknook-preview.png.asset.json";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -116,7 +117,8 @@ function Portfolio() {
         <section id="skills" className="section"><div className="content-container"><div className="section-heading"><div><p className="eyebrow">02 / The toolkit</p><h2>Skills that turn ideas into <em>shipped work.</em></h2></div><p>A growing collection of technologies, habits, and creative tools I use to move from first sketch to final polish.</p></div><div className="skills-grid">{skillGroups.map(({ title, icon: Icon, skills }) => <article className="skill-card" key={title}><Icon aria-hidden="true" /><h3>{title}</h3><div className="tag-list">{skills.map((skill) => <span key={skill}>{skill}</span>)}</div></article>)}</div></div></section>
 
         <section id="projects" className="section"><div className="content-container"><div className="section-heading"><div><p className="eyebrow">03 / Selected work</p><h2>Things I&apos;ve been <em>building lately.</em></h2></div><a className="text-link" href="https://github.com/alsabbir128" target="_blank" rel="noreferrer">View GitHub <ArrowUpRight /></a></div>
-          <Project title="FitLog" year="2026" label="Featured project" description="An interactive workout library and training log for planning better sessions and tracking progress in the moment." features={["Responsive workout library with smart sorting", "Live plan metrics and five-lift workflow", "Polished UX with persistent saved tabs"]} tags={["Next.js", "React", "TypeScript", "Tailwind CSS"]} demo="https://fitloglibrarya6.vercel.app/" repo="https://github.com/alsabbir128/FitLog-workout-library_A-6" preview="fitness" />
+          <Project title="BookNook" year="2026" label="Featured project" description="A small online library for curious readers — discover titles, borrow copies, and manage returns from one calm, editorial-style interface." features={["Curated New Arrivals shelf and searchable catalog", "Add, borrow and return books with live copy counts", "Secure accounts with light and night themes"]} tags={["Next.js", "React 19", "TypeScript", "Better Auth", "Drizzle ORM"]} demo="https://booklog-ai.vercel.app/" repo="https://github.com/alsabbir128/BookNook-A8-client" preview="library" />
+          <Project title="FitLog" year="2026" label="Featured build" description="An interactive workout library and training log for planning better sessions and tracking progress in the moment." features={["Responsive workout library with smart sorting", "Live plan metrics and five-lift workflow", "Polished UX with persistent saved tabs"]} tags={["Next.js", "React", "TypeScript", "Tailwind CSS"]} demo="https://fitloglibrarya6.vercel.app/" repo="https://github.com/alsabbir128/FitLog-workout-library_A-6" preview="fitness" />
           <Project title="Dev Stack" year="2025" label="Recent build" description="An interactive technology stack builder for exploring modern tools, comparing options, and creating a custom stack." features={["Browse frontend, backend, database and tools", "Add, remove or reset technologies in real time", "Responsive experience with clear feedback"]} tags={["React", "TypeScript", "Tailwind CSS"]} demo="https://dev-stack-programming-hero-a-5.vercel.app/" repo="https://github.com/alsabbir128/DEV-Stack_Programming-hero-A-5" preview="stack" />
           <Project title="Bazardor" year="2026" label="Latest build" description="A Bangla daily market price tracker that puts today's prices of rice, oil, vegetables, fish and other essentials in one glance." features={["Live price boards with daily rise & fall tracking", "Category browsing for everyday essentials", "Full Bangla interface with user accounts"]} tags={["Next.js", "React", "TypeScript", "Supabase", "Tailwind CSS"]} demo="https://bazardor-sabbir-a-7.vercel.app/" repo="https://github.com/alsabbir128/Bazardor-sabbir-A-7" preview="market" />
         </div></section>
@@ -130,8 +132,8 @@ function Portfolio() {
   );
 }
 
-function Project({ title, year, label, description, features, tags, demo, repo, preview }: { title: string; year: string; label: string; description: string; features: string[]; tags: string[]; demo: string; repo: string; preview: "fitness" | "stack" | "market" }) {
-  const shot = preview === "fitness" ? fitlogPreview : preview === "stack" ? devstackPreview : bazardorPreview;
-  const windowLabel = preview === "fitness" ? "fitlog / workout library" : preview === "stack" ? "dev stack / builder" : "bazardor / market prices";
+function Project({ title, year, label, description, features, tags, demo, repo, preview }: { title: string; year: string; label: string; description: string; features: string[]; tags: string[]; demo: string; repo: string; preview: "fitness" | "stack" | "market" | "library" }) {
+  const shot = preview === "fitness" ? fitlogPreview : preview === "stack" ? devstackPreview : preview === "market" ? bazardorPreview : booknookPreview;
+  const windowLabel = preview === "fitness" ? "fitlog / workout library" : preview === "stack" ? "dev stack / builder" : preview === "market" ? "bazardor / market prices" : "booknook / online library";
   return <article className="project-feature"><div className={`project-visual ${preview}`}><div className="project-window"><div className="window-bar"><i /><i /><i /><span>{windowLabel}</span></div><img className="window-shot" src={shot.url} alt={`${title} app screenshot`} loading="lazy" /></div></div><div className="project-details"><div className="project-kicker"><span>{label}</span><span>{year}</span></div><h3>{title}</h3><p>{description}</p><ul>{features.map((feature) => <li key={feature}><Check /> {feature}</li>)}</ul><div className="tag-list">{tags.map((tag) => <span key={tag}>{tag}</span>)}</div><div className="project-actions"><Button asChild><a href={demo} target="_blank" rel="noreferrer">Live demo <ExternalLink /></a></Button><Button variant="outline" asChild><a href={repo} target="_blank" rel="noreferrer"><GitBranch /> Repository</a></Button></div></div></article>;
 }
