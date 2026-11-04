@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useEffect, useRef, useState, type FormEvent } from "react";
-import { ArrowUpRight, Check, Code2, Database, ExternalLink, GitBranch, Mail, Menu, MonitorSmartphone, Palette, Send, Sparkles, X } from "lucide-react";
+import { useEffect, useLayoutEffect, useRef, useState, type FormEvent } from "react";
+import { ArrowUpRight, Check, Code2, Database, ExternalLink, GitBranch, GraduationCap, Mail, Menu, MonitorSmartphone, Palette, School, Send, Sparkles, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import portrait from "@/assets/abdullah-portrait.jpg.asset.json";
 import fitlogPreview from "@/assets/fitlog-preview.png.asset.json";
@@ -24,7 +24,7 @@ export const Route = createFileRoute("/")({
   component: Portfolio,
 });
 
-const navItems = ["About", "Skills", "Projects", "Services", "Contact"];
+const navItems = ["About", "Education", "Skills", "Projects", "Services", "Contact"];
 const skillGroups = [
   { title: "Web development", icon: Code2, skills: ["React 19", "Next.js", "TypeScript", "JavaScript", "Tailwind CSS", "HTML / CSS"] },
   { title: "Languages & systems", icon: Database, skills: ["Python", "C / C++", "SQL", "NoSQL", "Data structures", "API architecture"] },
@@ -67,6 +67,31 @@ function Portfolio() {
       window.removeEventListener("resize", onScroll);
       window.removeEventListener("hashchange", onScroll);
     };
+  }, []);
+
+  useLayoutEffect(() => {
+    const items = Array.from(document.querySelectorAll<HTMLElement>(
+      ".section-heading, .hero-copy, .hero-visual, .hero-lede, .credentials, .edu-card, .skill-card, .project-feature, .services-grid article, .contact-form",
+    ));
+    const groups = new Map<HTMLElement, number>();
+    items.forEach((el) => {
+      el.classList.add("reveal");
+      const parent = el.parentElement;
+      if (!parent) return;
+      const index = groups.get(parent) ?? 0;
+      groups.set(parent, index + 1);
+      el.style.setProperty("--reveal-delay", `${Math.min(index, 5) * 90}ms`);
+    });
+    const observer = new IntersectionObserver((entries) => {
+      for (const entry of entries) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("is-visible");
+          observer.unobserve(entry.target);
+        }
+      }
+    }, { threshold: 0.12, rootMargin: "0px 0px -50px 0px" });
+    items.forEach((el) => observer.observe(el));
+    return () => observer.disconnect();
   }, []);
 
   function navigateToSection(id: string) {
@@ -114,9 +139,11 @@ function Portfolio() {
 
         <section id="about" className="section about-section"><div className="content-container about-grid"><div><p className="eyebrow">01 / About me</p><h2>A developer with a <em>creative edge.</em></h2></div><div className="about-copy"><p className="lead">I&apos;m currently studying Computer Science &amp; Engineering at <strong>North South University</strong>, where I&apos;m sharpening my foundations in software engineering, algorithms, and systems.</p><p>Outside the curriculum, I enjoy making the web feel a little more human — pairing clean code with considered interfaces, visual storytelling, and practical problem solving.</p><div className="credentials"><div><span>CS</span><div><strong>Python Programming</strong><small>Bangladesh Students&apos; Programming &amp; Robotics Club</small></div></div><div><span>EN</span><div><strong>IELTS Certified</strong><small>Global communication &amp; collaboration</small></div></div></div></div></div></section>
 
-        <section id="skills" className="section"><div className="content-container"><div className="section-heading"><div><p className="eyebrow">02 / The toolkit</p><h2>Skills that turn ideas into <em>shipped work.</em></h2></div><p>A growing collection of technologies, habits, and creative tools I use to move from first sketch to final polish.</p></div><div className="skills-grid">{skillGroups.map(({ title, icon: Icon, skills }) => <article className="skill-card" key={title}><Icon aria-hidden="true" /><h3>{title}</h3><div className="tag-list">{skills.map((skill) => <span key={skill}>{skill}</span>)}</div></article>)}</div></div></section>
+        <section id="education" className="section"><div className="content-container"><div className="section-heading"><div><p className="eyebrow">02 / Education</p><h2>Where I&apos;m learning and <em>growing.</em></h2></div><p>The classrooms and campuses that shaped how I think, study, and build.</p></div><div className="edu-grid"><article className="edu-card"><GraduationCap aria-hidden="true" /><span className="edu-meta">Ongoing · B.Sc. in CSE</span><h3>North South University</h3><p>Studying Computer Science &amp; Engineering in Dhaka — sharpening my foundations in software engineering, algorithms, and systems.</p></article><article className="edu-card"><School aria-hidden="true" /><span className="edu-meta">Passed · HSC</span><h3>BAF Shaheen College, Dhaka</h3><p>Completed my Higher Secondary Certificate — where problem solving and technology first became a real passion.</p></article></div></div></section>
 
-        <section id="projects" className="section"><div className="content-container"><div className="section-heading"><div><p className="eyebrow">03 / Selected work</p><h2>Things I&apos;ve been <em>building lately.</em></h2></div><a className="text-link" href="https://github.com/alsabbir128" target="_blank" rel="noreferrer">View GitHub <ArrowUpRight /></a></div>
+        <section id="skills" className="section"><div className="content-container"><div className="section-heading"><div><p className="eyebrow">03 / The toolkit</p><h2>Skills that turn ideas into <em>shipped work.</em></h2></div><p>A growing collection of technologies, habits, and creative tools I use to move from first sketch to final polish.</p></div><div className="skills-grid">{skillGroups.map(({ title, icon: Icon, skills }) => <article className="skill-card" key={title}><Icon aria-hidden="true" /><h3>{title}</h3><div className="tag-list">{skills.map((skill) => <span key={skill}>{skill}</span>)}</div></article>)}</div></div></section>
+
+        <section id="projects" className="section"><div className="content-container"><div className="section-heading"><div><p className="eyebrow">04 / Selected work</p><h2>Things I&apos;ve been <em>building lately.</em></h2></div><a className="text-link" href="https://github.com/alsabbir128" target="_blank" rel="noreferrer">View GitHub <ArrowUpRight /></a></div>
           <div className="projects-grid">
           <Project title="BookNook" year="2026" label="Featured project" description="A small online library for curious readers — discover titles, borrow copies, and manage returns from one calm, editorial-style interface." features={["Curated New Arrivals shelf and searchable catalog", "Add, borrow and return books with live copy counts", "Secure accounts with light and night themes"]} tags={["Next.js", "React 19", "TypeScript", "Better Auth", "Drizzle ORM"]} demo="https://booklog-ai.vercel.app/" repo="https://github.com/alsabbir128/BookNook-A8-client" preview="library" />
           <Project title="FitLog" year="2026" label="Featured build" description="An interactive workout library and training log for planning better sessions and tracking progress in the moment." features={["Responsive workout library with smart sorting", "Live plan metrics and five-lift workflow", "Polished UX with persistent saved tabs"]} tags={["Next.js", "React", "TypeScript", "Tailwind CSS"]} demo="https://fitloglibrarya6.vercel.app/" repo="https://github.com/alsabbir128/FitLog-workout-library_A-6" preview="fitness" />
@@ -125,9 +152,9 @@ function Portfolio() {
           </div>
         </div></section>
 
-        <section id="services" className="section"><div className="content-container"><div className="section-heading"><div><p className="eyebrow">04 / What I do</p><h2>From blank canvas to <em>built &amp; shipped.</em></h2></div></div><div className="services-grid"><article><span>01</span><MonitorSmartphone /><h3>Web development</h3><p>Fast, responsive web applications built with modern React, Next.js, and TypeScript.</p></article><article><span>02</span><Palette /><h3>UI / UX &amp; web design</h3><p>Clean visual systems with strong attention to hierarchy, responsiveness, and experience.</p></article><article><span>03</span><Database /><h3>Application architecture</h3><p>Thoughtful logic, storage integration, and scalable workflows that stay easy to evolve.</p></article></div></div></section>
+        <section id="services" className="section"><div className="content-container"><div className="section-heading"><div><p className="eyebrow">05 / What I do</p><h2>From blank canvas to <em>built &amp; shipped.</em></h2></div></div><div className="services-grid"><article><span>01</span><MonitorSmartphone /><h3>Web development</h3><p>Fast, responsive web applications built with modern React, Next.js, and TypeScript.</p></article><article><span>02</span><Palette /><h3>UI / UX &amp; web design</h3><p>Clean visual systems with strong attention to hierarchy, responsiveness, and experience.</p></article><article><span>03</span><Database /><h3>Application architecture</h3><p>Thoughtful logic, storage integration, and scalable workflows that stay easy to evolve.</p></article></div></div></section>
 
-        <section id="contact" className="section contact-section"><div className="content-container contact-grid"><div><p className="eyebrow">05 / Start a conversation</p><h2>Let&apos;s build something <em>great together.</em></h2><p>Have a project, an idea, or just want to say hello? My inbox is always open.</p><div className="contact-links"><a href="mailto:abdullahals128@gmail.com"><Mail /> abdullahals128@gmail.com</a><a href="https://linkedin.com/in/abdullah-al-sabbir-54b05b294" target="_blank" rel="noreferrer">LinkedIn profile <ArrowUpRight /></a></div></div><form className="contact-form" onSubmit={handleSubmit}><label>Name<input required name="name" placeholder="Your name" /></label><label>Email<input required type="email" name="email" placeholder="you@example.com" /></label><label>Subject<input required name="subject" placeholder="What&apos;s on your mind?" /></label><label>Message<textarea required name="message" rows={4} placeholder="Tell me a little about it..." /></label><Button type="submit">Open email draft <Send /></Button></form></div></section>
+        <section id="contact" className="section contact-section"><div className="content-container contact-grid"><div><p className="eyebrow">06 / Start a conversation</p><h2>Let&apos;s build something <em>great together.</em></h2><p>Have a project, an idea, or just want to say hello? My inbox is always open.</p><div className="contact-links"><a href="mailto:abdullahals128@gmail.com"><Mail /> abdullahals128@gmail.com</a><a href="https://linkedin.com/in/abdullah-al-sabbir-54b05b294" target="_blank" rel="noreferrer">LinkedIn profile <ArrowUpRight /></a></div></div><form className="contact-form" onSubmit={handleSubmit}><label>Name<input required name="name" placeholder="Your name" /></label><label>Email<input required type="email" name="email" placeholder="you@example.com" /></label><label>Subject<input required name="subject" placeholder="What&apos;s on your mind?" /></label><label>Message<textarea required name="message" rows={4} placeholder="Tell me a little about it..." /></label><Button type="submit">Open email draft <Send /></Button></form></div></section>
         <footer className="site-footer content-container"><a href="#home" className="footer-brand">alsabbir<span>.dev</span></a><p>© 2026 Abdullah Al Sabbir. Designed &amp; built with intention.</p><a href="#home" aria-label="Back to top">Back to top ↑</a></footer>
       </main>
     </div>
