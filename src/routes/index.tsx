@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useEffect, useRef, useState, type FormEvent } from "react";
-import { ArrowUpRight, Check, Code2, Database, ExternalLink, GitBranch, Mail, Menu, MonitorSmartphone, Palette, Send, Sparkles, X } from "lucide-react";
+import { useEffect, useLayoutEffect, useRef, useState, type FormEvent } from "react";
+import { ArrowUpRight, Check, Code2, Database, ExternalLink, GitBranch, GraduationCap, Mail, Menu, MonitorSmartphone, Palette, School, Send, Sparkles, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import portrait from "@/assets/abdullah-portrait.jpg.asset.json";
 import fitlogPreview from "@/assets/fitlog-preview.png.asset.json";
@@ -24,7 +24,7 @@ export const Route = createFileRoute("/")({
   component: Portfolio,
 });
 
-const navItems = ["About", "Skills", "Projects", "Services", "Contact"];
+const navItems = ["About", "Education", "Skills", "Projects", "Services", "Contact"];
 const skillGroups = [
   { title: "Web development", icon: Code2, skills: ["React 19", "Next.js", "TypeScript", "JavaScript", "Tailwind CSS", "HTML / CSS"] },
   { title: "Languages & systems", icon: Database, skills: ["Python", "C / C++", "SQL", "NoSQL", "Data structures", "API architecture"] },
@@ -67,6 +67,31 @@ function Portfolio() {
       window.removeEventListener("resize", onScroll);
       window.removeEventListener("hashchange", onScroll);
     };
+  }, []);
+
+  useLayoutEffect(() => {
+    const items = Array.from(document.querySelectorAll<HTMLElement>(
+      ".section-heading, .hero-copy, .hero-visual, .hero-lede, .credentials, .edu-card, .skill-card, .project-feature, .services-grid article, .contact-form",
+    ));
+    const groups = new Map<HTMLElement, number>();
+    items.forEach((el) => {
+      el.classList.add("reveal");
+      const parent = el.parentElement;
+      if (!parent) return;
+      const index = groups.get(parent) ?? 0;
+      groups.set(parent, index + 1);
+      el.style.setProperty("--reveal-delay", `${Math.min(index, 5) * 90}ms`);
+    });
+    const observer = new IntersectionObserver((entries) => {
+      for (const entry of entries) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("is-visible");
+          observer.unobserve(entry.target);
+        }
+      }
+    }, { threshold: 0.12, rootMargin: "0px 0px -50px 0px" });
+    items.forEach((el) => observer.observe(el));
+    return () => observer.disconnect();
   }, []);
 
   function navigateToSection(id: string) {
