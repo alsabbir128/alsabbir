@@ -84,7 +84,12 @@ function Portfolio() {
       if (!parent) return;
       const index = groups.get(parent) ?? 0;
       groups.set(parent, index + 1);
-      el.style.setProperty("--reveal-delay", `${Math.min(index, 5) * 90}ms`);
+      if (el.matches(".hero-copy, .section-heading")) el.classList.add("reveal-from-left");
+      if (el.matches(".hero-visual, .credentials")) el.classList.add("reveal-from-right");
+      if (el.matches(".edu-card, .skill-card, .project-feature, .services-grid article")) {
+        el.classList.add(index % 2 === 0 ? "reveal-from-left" : "reveal-from-right");
+      }
+      el.style.setProperty("--reveal-delay", `${Math.min(index, 4) * 50}ms`);
     });
     const observer = new IntersectionObserver((entries) => {
       for (const entry of entries) {
@@ -93,7 +98,7 @@ function Portfolio() {
           observer.unobserve(entry.target);
         }
       }
-    }, { threshold: 0.12, rootMargin: "0px 0px -50px 0px" });
+    }, { threshold: 0.06, rootMargin: "0px 0px -24px 0px" });
     items.forEach((el) => observer.observe(el));
     return () => observer.disconnect();
   }, []);
