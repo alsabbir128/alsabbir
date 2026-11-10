@@ -63,7 +63,7 @@ button { cursor: pointer; }
 .content-container { width: min(100% - clamp(2.5rem, 8vw, 10rem), 1500px); margin-inline: auto; }
 .site-header { position: fixed; inset: 0 auto 0 0; z-index: 20; display: flex; align-items: center; flex-direction: column; width: 132px; padding: 22px 11px 18px; background: var(--surface-deep); border-right: 1px solid var(--border); }
 .brand { display: flex; align-items: center; flex-direction: column; gap: 9px; font-size: 12.5px; text-align: center; white-space: nowrap; }
-.brand img { width: 52px; height: 52px; border-radius: 50%; object-fit: cover; object-position: center 17%; border: 2px solid var(--line-bright); }
+.brand img { width: 52px; height: 52px; border-radius: 50%; object-fit: cover; object-position: center 28%; border: 2px solid var(--line-bright); }
 .brand span, .footer-brand span { color: var(--primary); }
 .site-nav { display: flex; align-items: stretch; flex-direction: column; gap: 4px; width: 100%; margin-top: 40px; flex: 1; }
 .site-nav > a { display: flex; align-items: center; gap: 7px; min-height: 38px; padding: 8px 10px; border-radius: 5px; color: var(--muted-foreground); font-size: 12.5px; letter-spacing: .01em; transition: color .2s, background .2s; }
@@ -93,7 +93,7 @@ h1 em, h2 em { color: var(--primary); font-style: normal; }
 .hero-visual { display: grid; place-items: center; position: relative; width: 100%; height: clamp(360px, 35vw, 510px); min-width: 0; overflow: clip; }
 .portrait-outline { position: absolute; width: min(95%, 440px); aspect-ratio: 1.2; border: 1px solid var(--line-bright); border-radius: 50%; transform: rotate(-34deg); }
 .profile-card { position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; width: clamp(245px, 24vw, 315px); height: clamp(315px, 32vw, 395px); padding: 25px; background: var(--surface-raised); border: 1px solid var(--line-bright); border-radius: 8px; box-shadow: 10px 10px 0 var(--accent), var(--shadow-window); transform: rotate(5deg); }
-.profile-card img { width: clamp(160px, 16vw, 205px); height: clamp(160px, 16vw, 205px); object-fit: cover; object-position: center 17%; border: 3px solid var(--primary); border-radius: 50%; }
+.profile-card img { width: clamp(160px, 16vw, 205px); height: clamp(160px, 16vw, 205px); object-fit: cover; object-position: center 28%; border: 3px solid var(--primary); border-radius: 50%; }
 .profile-caption { width: 100%; margin-top: 28px; transform: rotate(-5deg); }
 .profile-caption span { color: var(--primary); font-size: 10px; font-weight: 700; letter-spacing: .12em; }
 .profile-caption p { margin: 17px 0 0; color: var(--muted-foreground); font-size: 12px; font-style: italic; line-height: 1.5; }
