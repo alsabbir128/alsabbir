@@ -17,8 +17,8 @@ export const Route = createFileRoute("/")({
       { property: "og:description", content: "Explore Abdullah Al Sabbir's work, skills, and web development projects." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
-      { property: "og:image", content: portrait.url },
-      { name: "twitter:image", content: portrait.url },
+      { property: "og:image", content: portrait },
+      { name: "twitter:image", content: portrait },
     ],
   }),
   component: Portfolio,
@@ -121,7 +121,7 @@ function Portfolio() {
     <div className="portfolio-shell" id="home">
       <header className="site-header">
         <a href="#home" className="brand" aria-label="Abdullah Al Sabbir home" onClick={() => setMenuOpen(false)}>
-          <img src={portrait.url} alt="" /><strong>alsabbir<span>.dev</span></strong>
+          <img src={portrait} alt="" /><strong>alsabbir<span>.dev</span></strong>
         </a>
         <nav className={`site-nav ${menuOpen ? "is-open" : ""}`} aria-label="Primary navigation">
           {navItems.map((item) => <a key={item} href={`#${item.toLowerCase()}`} className={activeSection === item.toLowerCase() ? "is-active" : ""} aria-current={activeSection === item.toLowerCase() ? "location" : undefined} onClick={() => navigateToSection(item.toLowerCase())}>{item}</a>)}
@@ -141,7 +141,7 @@ function Portfolio() {
           </div>
           <div className="hero-visual" aria-label="Portrait of Abdullah Al Sabbir">
             <div className="portrait-outline" aria-hidden="true" />
-            <div className="profile-card"><img src={portrait.url} alt="Abdullah Al Sabbir smiling in a white shirt" /><div className="profile-caption"><span>CSE / WEB DEV</span><p>“Theory is a starting point.<br />Building is the real test.”</p></div></div>
+            <div className="profile-card"><img src={portrait} alt="Abdullah Al Sabbir in an olive-green shirt" /><div className="profile-caption"><span>CSE / WEB DEV</span><p>“Theory is a starting point.<br />Building is the real test.”</p></div></div>
             <div className="floating-note note-top"><span>01</span><strong>Learn</strong><small>every day</small></div><div className="floating-note note-bottom"><span>02</span><strong>Build</strong><small>with intention</small></div>
           </div>
         </section>
