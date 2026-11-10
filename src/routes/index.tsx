@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useLayoutEffect, useRef, useState, type FormEvent } from "react";
 import { ArrowUpRight, Check, Code2, Database, ExternalLink, GitBranch, GraduationCap, Mail, Menu, MonitorSmartphone, Palette, School, Send, Sparkles, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import portrait from "@/assets/abdullah-portrait.jpg.asset.json";
+import portrait from "@/assets/abdullah-portrait-2026.jpg.asset.json";
 import fitlogPreview from "@/assets/fitlog-preview.png.asset.json";
 import devstackPreview from "@/assets/devstack-preview.png.asset.json";
 import bazardorPreview from "@/assets/bazardor-preview.png.asset.json";
