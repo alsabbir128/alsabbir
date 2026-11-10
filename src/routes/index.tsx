@@ -17,8 +17,6 @@ export const Route = createFileRoute("/")({
       { property: "og:description", content: "Explore Abdullah Al Sabbir's work, skills, and web development projects." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
-      { property: "og:image", content: portrait },
-      { name: "twitter:image", content: portrait },
     ],
   }),
   component: Portfolio,
